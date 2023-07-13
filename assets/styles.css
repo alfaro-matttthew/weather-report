@@ -7,6 +7,10 @@
   'opsz' 48
 }
 
+body {
+    background-color: #F2F2F2;
+}
+
 #header {
     background-image: linear-gradient(to right, #465AB8, #261360);
     color: whitesmoke;
@@ -15,13 +19,26 @@
 #searchBtn {
     display: block;
     text-decoration: none;
-    color: black;
+    color: #6891E3;
+}
+
+#search-container {
+    background-color: #FAFAFA;
 }
 
 #today-container {
-    /* background-color: #ECECEC; */
+    background-color: #FAFAFA;
+}
+
+#five-contianer {
+    background-color: #FAFAFA;
 }
 
 .card-kuler {
     background-color: #3B4859;
 }
+
+input {
+    background-color: #FFFFFF;
+}
+

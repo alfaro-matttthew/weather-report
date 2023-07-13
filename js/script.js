@@ -6,6 +6,7 @@
           <div>Humidity</div>
         </div> */}
 
+
 $(document).ready (function() {
     var fiveDayForecastEl = $('#fiveDayForecast');
     var weatherAPIKey = "124112a95eeb6b1e4f8f290ab92b20f7";
@@ -43,7 +44,7 @@ $(document).ready (function() {
             
             var listEl = $('<li>');
 
-            listEl.addClass('pb-2 fs-4 ')
+            listEl.addClass('my-3 px-4 py-2 fs-4 border rounded-pill')
 
             listEl.text(searchedItems);
             listEl.attr('style','list-style-type: none');
