@@ -43,6 +43,8 @@ $(document).ready (function() {
             
             var listEl = $('<li>');
 
+            listEl.addClass('pb-2 fs-4 ')
+
             listEl.text(searchedItems);
             listEl.attr('style','list-style-type: none');
 
@@ -62,7 +64,7 @@ $(document).ready (function() {
             return response.json();
         })
         .then( function(data) {
-            console.log(data);
+            // console.log(data);
             var selectedDays = [
                 data.list[1],
                 data.list[9],
@@ -87,13 +89,20 @@ $(document).ready (function() {
         var container = $('<div>');
         var date = $('<div>');
         var icon = $('<img>');
+        // var imgLink = 'https://openweathermap.org/img/wn/' +  + '.png'
         var temp = $('<div>');
         var wind = $('<div>');
         var humidity = $('<div>');
 
+        container.addClass("card-kuler card m-2 pt-3 pb-5 shadow-sm");
+        date.addClass("text-light fw-bold mb-2");
+        temp.addClass("text-light");
+        wind.addClass("text-light");
+        humidity.addClass("text-light");
+
         container.addClass('col');
         date.text(dayjs(days.dt_txt).format('MM/DD/YYYY'));
-        icon.attr('src', 'i');
+        // icon.attr('src', "'https://openweathermap.org/img/wn/' + icon + '.png'"
         temp.text('Temp: ' + days.main.temp + '° F');
         wind.text('Wind: ' + days.wind.speed + 'mph');
         humidity.text('Humidity ' + days.main.humidity + '%');
@@ -109,12 +118,12 @@ $(document).ready (function() {
     function getTodayForecastData(cityNameToday) {
         fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityNameToday + "&appid=" + weatherAPIKey + '&units=imperial')
         .then( function(response) {
-            console.log(response);
+            // console.log(response);
             return response.json();
             
         })
         .then( function(data) {
-            console.log(data);
+            // console.log(data);
             
 
             createTodaysForecast(data);
@@ -128,7 +137,7 @@ $(document).ready (function() {
         var todayHumidity = $('#todayHumidity');
 
 
-        console.log(today);
+        // console.log(today);
         cityNameAndDate.text(today.city.name + '(' + dayjs(today.list[0].dt_txt).format('MM/DD/YYYY') + ')');
         todayTemp.text(today.list[0].main.temp + '° F');
         todayWind.text(today.list[0].wind.speed + 'mph');
@@ -145,7 +154,7 @@ $(document).ready (function() {
         var justSearched = readSearchesFromStorage();
 
         if (!justSearched.includes(cityname)) {
-            if (justSearched.length > 6) {
+            if (justSearched.length > 5) {
                 justSearched.pop();
             }
             justSearched.unshift(cityname);
