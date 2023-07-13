@@ -17,7 +17,7 @@ $(document).ready (function() {
     function readSearchesFromStorage() {
         var searches = localStorage.getItem('searches');
         if (searches) {
-            searches = JSON.parse(projects);
+            searches = JSON.parse(searches);
         } else {
             searches = [];
         }
@@ -36,22 +36,27 @@ $(document).ready (function() {
         
         // attaches the array made from readSearchesFromStorage and applies it to searches
         var searches = readSearchesFromStorage();
-
-        // loop through each project and create a new li
+        
+        // loop through each project and create a new li and add it to the list
         for (var i = 0; i < searches.length; i++) {
             var searchedItems = searches[i];
             
             var listEl = $('<li>');
 
             listEl.text(searchedItems);
+            listEl.attr('style','list-style-type: none');
 
-            searchHistoryEl.append()
+            searchHistoryEl.append(listEl);
         }
-    }
+    };
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function getFiveDayForecastData(cityname) {
+
+        $("#fiveDayForecast").empty();
+
         fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityname + "&appid=" + weatherAPIKey + '&units=imperial')
         .then( function(response) {
             return response.json();
@@ -110,14 +115,7 @@ $(document).ready (function() {
         })
         .then( function(data) {
             console.log(data);
-            var selectedDays = [
-                data.list[1],
-                data.list[9],
-                data.list[17],
-                data.list[25],
-                data.list[33]
-            ];
-            console.log(selectedDays);
+            
 
             createTodaysForecast(data);
         })
@@ -131,7 +129,7 @@ $(document).ready (function() {
 
 
         console.log(today);
-        cityNameAndDate.text(today.city.name + ' ' + dayjs(today.list[0].dt_txt).format('MM/DD/YYYY'));
+        cityNameAndDate.text(today.city.name + '(' + dayjs(today.list[0].dt_txt).format('MM/DD/YYYY') + ')');
         todayTemp.text(today.list[0].main.temp + '° F');
         todayWind.text(today.list[0].wind.speed + 'mph');
         todayHumidity.text(today.list[0].main.humidity + '%');
@@ -139,14 +137,55 @@ $(document).ready (function() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function search() {
+    function handleSearch() {
 
         var cityname = $('#searchTextBox').val();
+
+        // add searched item to local storage
+        var justSearched = readSearchesFromStorage();
+
+        if (!justSearched.includes(cityname)) {
+            if (justSearched.length > 6) {
+                justSearched.pop();
+            }
+            justSearched.unshift(cityname);
+            saveSearchesToStorage(justSearched);
+        }
+
         getFiveDayForecastData(cityname);
         getTodayForecastData(cityname);
+        printSearchHistory();
     }
 
-    $('#searchBtn').on('click', search);
+    $('#searchBtn').on('click', handleSearch);
     
     
 })        
+
+
+
+
+
+
+        // var container = $('<div>');
+        // container.attr('id', 'continerFive');
+        // var date = $('<div>');
+        // date.attr('id', 'dateFive');
+        // var icon = $('<img>');
+        // icon.attr('id', 'iconFive');
+        // var temp = $('<div>');
+        // temp.attr('id', 'tempFive');
+        // var wind = $('<div>');
+        // wind.attr('id', 'windFive');
+        // var humidity = $('<div>');
+        // humidity.attr('id', 'humidityFive');
+
+        // $('.fiveContainer #continerFive').remove();
+        // $('.fiveContainer #dateFive').remove();
+        // $('.fiveContainer #iconFive').remove();
+        // $('.fiveContainer #tempFive').remove();
+        // $('.fiveContainer #windFive').remove();
+        // $('.fiveContainer #humidityFive').remove();
+
+// add this into the DOM for the icon
+// .src = "https://openweathermap.org/img/wn/"" + icon + "".png"
